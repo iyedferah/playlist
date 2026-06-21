@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>♪ Playlist Battle — Iyed & Yomna</title>
+  <meta name="description" content="A 1v1 tournament for Iyed & Yomna to find their favourite song from their shared YouTube Music playlist." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- SCREEN 1: LANDING -->
+    <section id="screen-landing" class="screen active">
+      <div class="landing-bg">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+      </div>
+      <div class="landing-content">
+        <div class="hearts-header">
+          <span class="heart-icon">♪</span>
+          <span class="heart-icon">❤️</span>
+          <span class="heart-icon">♪</span>
+        </div>
+        <h1 class="landing-title">Playlist Battle</h1>
+        <p class="landing-subtitle">Iyed &amp; Yomna · Find your ultimate favourite song 🎶</p>
+        <div class="card import-card">
+          <h2>🎵 Import Your Playlist</h2>
+          <p class="hint">Paste your YouTube Music playlist link below</p>
+          <div class="input-group">
+            <input type="url" id="playlist-url" placeholder="https://music.youtube.com/playlist?list=..." autocomplete="off" />
+            <button id="btn-fetch" class="btn btn-primary">
+              <span class="btn-text">Fetch Songs</span>
+              <span class="spinner" hidden></span>
+            </button>
+          </div>
+          <div id="fetch-error" class="error-msg" hidden></div>
+          <div class="divider"><span>or</span></div>
+          <p class="hint">Paste song names manually (one per line)</p>
+          <textarea id="manual-songs" placeholder="Song 1 - Artist&#10;Song 2 - Artist&#10;Song 3 - Artist&#10;..."></textarea>
+          <button id="btn-manual" class="btn btn-secondary">Use These Songs</button>
+        </div>
+        <div id="song-preview" class="song-list-preview" hidden></div>
+        <button id="btn-start" class="btn btn-giant" hidden>
+          <span>⚔️ Start Tournament</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SCREEN 2: BATTLE -->
+    <section id="screen-battle" class="screen">
+      <div class="battle-bg">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+      </div>
+      <header class="battle-header">
+        <div class="battle-stage-label" id="stage-label">Qualification</div>
+        <div class="battle-progress">
+          <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+          <span id="progress-text">Match 1 of 24</span>
+        </div>
+        <div class="battle-score-chips">
+          <span class="chip you-chip" id="score-iyed">Iyed: 0</span>
+          <span class="chip yomna-chip" id="score-yomna">Yomna: 0</span>
+        </div>
+      </header>
+
+      <main class="battle-arena">
+        <div class="song-card left-card" id="card-a">
+          <div class="song-rank" id="rank-a">A</div>
+          <div class="song-artwork" id="artwork-a">
+            <div class="artwork-inner"><span class="note-icon">♪</span></div>
+          </div>
+          <div class="song-info">
+            <div class="song-title" id="title-a">Song Title</div>
+            <div class="song-artist" id="artist-a">Artist</div>
+          </div>
+          <button class="btn-listen" id="btn-listen-a" onclick="togglePlayer('a')">▶ Listen</button>
+          <div class="yt-player-wrap" id="player-wrap-a" hidden>
+            <iframe id="yt-frame-a" class="yt-frame" src="" allow="autoplay; encrypted-media" allowfullscreen frameborder="0"></iframe>
+          </div>
+          <div class="vote-section">
+            <div class="voter-btns">
+              <button class="voter-btn you-btn" data-side="a" data-voter="iyed" id="vote-iyed-a">
+                <span class="voter-avatar">🧑</span>
+                <span class="voter-label">Iyed</span>
+                <span class="vote-check" hidden>✓</span>
+              </button>
+              <button class="voter-btn yomna-btn" data-side="a" data-voter="yomna" id="vote-yomna-a">
+                <span class="voter-avatar">👩</span>
+                <span class="voter-label">Yomna</span>
+                <span class="vote-check" hidden>✓</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="vs-divider">
+          <div class="vs-circle">VS</div>
+        </div>
+
+        <div class="song-card right-card" id="card-b">
+          <div class="song-rank" id="rank-b">B</div>
+          <div class="song-artwork" id="artwork-b">
+            <div class="artwork-inner"><span class="note-icon">♪</span></div>
+          </div>
+          <div class="song-info">
+            <div class="song-title" id="title-b">Song Title</div>
+            <div class="song-artist" id="artist-b">Artist</div>
+          </div>
+          <button class="btn-listen" id="btn-listen-b" onclick="togglePlayer('b')">▶ Listen</button>
+          <div class="yt-player-wrap" id="player-wrap-b" hidden>
+            <iframe id="yt-frame-b" class="yt-frame" src="" allow="autoplay; encrypted-media" allowfullscreen frameborder="0"></iframe>
+          </div>
+          <div class="vote-section">
+            <div class="voter-btns">
+              <button class="voter-btn you-btn" data-side="b" data-voter="iyed" id="vote-iyed-b">
+                <span class="voter-avatar">🧑</span>
+                <span class="voter-label">Iyed</span>
+                <span class="vote-check" hidden>✓</span>
+              </button>
+              <button class="voter-btn yomna-btn" data-side="b" data-voter="yomna" id="vote-yomna-b">
+                <span class="voter-avatar">👩</span>
+                <span class="voter-label">Yomna</span>
+                <span class="vote-check" hidden>✓</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <div class="battle-footer">
+        <div id="verdict-area" class="verdict-area">
+          <div id="agree-banner" class="agree-banner" hidden>
+            <span id="agree-emoji">🎉</span>
+            <span id="agree-text">You both chose Song A!</span>
+            <button id="btn-next" class="btn btn-next">Next Match →</button>
+          </div>
+          <div id="disagree-banner" class="disagree-banner" hidden>
+            <span>😅 You disagree! Keep discussing and re-vote...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 3: WINNER -->
+    <section id="screen-winner" class="screen">
+      <div class="winner-bg">
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+        <div class="orb orb3"></div>
+      </div>
+      <div class="winner-content">
+        <div class="confetti-emojis" id="confetti-layer"></div>
+        <div class="trophy-anim">🏆</div>
+        <h1 class="winner-heading">Your Favourite Song!</h1>
+        <p class="winner-tagline">After all the battles… you both agree on:</p>
+        <div class="winner-card">
+          <div class="winner-artwork" id="winner-artwork">
+            <span class="note-icon big-note">♪</span>
+          </div>
+          <div class="winner-title" id="winner-title">—</div>
+          <div class="winner-artist" id="winner-artist">—</div>
+          <a id="winner-link" class="btn btn-yt" href="#" target="_blank" rel="noopener">▶ Open on YouTube Music</a>
+        </div>
+        <button id="btn-restart" class="btn btn-secondary mt">🔄 Play Again</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
