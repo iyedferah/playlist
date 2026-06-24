@@ -239,6 +239,13 @@ textarea#manual-songs:focus { border-color: var(--purple); }
   z-index: 10;
   flex-wrap: wrap;
 }
+.battle-title-wrap {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.battle-names {
+  font-size: .8rem; font-weight: 700;
+  color: var(--muted); letter-spacing: .5px;
+}
 .battle-stage-label {
   font-size: .85rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
   color: var(--purple);
@@ -330,7 +337,7 @@ textarea#manual-songs:focus { border-color: var(--purple); }
 .voter-btn.you-btn:hover { border-color: var(--you-color); background: rgba(168,85,247,.12); }
 .voter-btn.yomna-btn:hover { border-color: var(--yomna-color); background: rgba(244,63,94,.12); }
 
-.voter-btn.voted-you {
+.voter-btn.voted-iyed {
   border-color: var(--you-color);
   background: rgba(168,85,247,.18);
   box-shadow: 0 0 16px rgba(168,85,247,.3);
@@ -370,6 +377,12 @@ textarea#manual-songs:focus { border-color: var(--purple); }
   text-align: center;
 }
 .verdict-area { display:flex; justify-content:center; }
+.waiting-hint {
+  font-size: .9rem;
+  color: var(--muted);
+  padding: 10px 0;
+  text-align: center;
+}
 .agree-banner, .disagree-banner {
   display:flex; align-items:center; gap:14px;
   background: var(--card);
